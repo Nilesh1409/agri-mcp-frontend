@@ -298,53 +298,8 @@ export default function EnhancedMCPChatbot() {
         </CardHeader>
       </Card>
 
-      {/* Intro when empty */}
-      {messages.length === 0 && (
-        <div className="flex-1 overflow-y-auto p-4">
-          <Card className="max-w-4xl mx-auto">
-            <CardContent className="p-6">
-              <div className="text-center space-y-4">
-                <h2 className="text-2xl font-bold text-gray-800">
-                  Welcome to Enhanced MCP Environmental Chatbot! 🌱
-                </h2>
-                <p className="text-gray-600">
-                  I'm connected to live environmental APIs through MCP server.
-                  Default location is set to Bengaluru!
-                </p>
-
-                <div className="grid md:grid-cols-2 gap-4 mt-6">
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-green-700">
-                      🔧 MCP Tools Available:
-                    </h3>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      <li>• Weather data (OpenMeteo API)</li>
-                      <li>• Soil composition (SoilGrids API)</li>
-                      <li>• Precipitation data (CHIRPS)</li>
-                      <li>• Environmental metrics</li>
-                    </ul>
-                  </div>
-
-                  <div className="space-y-2">
-                    <h3 className="font-semibold text-blue-700">
-                      🌍 Try asking:
-                    </h3>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      <li>• "What's the current weather?"</li>
-                      <li>• "Show me soil data"</li>
-                      <li>• "Get precipitation information"</li>
-                      <li>• "Any recent earthquakes nearby?"</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
       {/* Chat Messages with Enhanced Scrolling */}
-      {messages.length > 0 && (
+      {
         <div
           ref={chatContainerRef}
           className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth"
@@ -359,6 +314,54 @@ export default function EnhancedMCPChatbot() {
               </AlertDescription>
             </Alert>
           )}
+
+          <div className="w-full max-w-4xl mx-auto">
+            <Card>
+              <CardContent className="p-6">
+                <div className="text-center space-y-4">
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    Welcome to Enhanced MCP Environmental Chatbot! 🌱
+                  </h2>
+                  <p className="text-gray-600">
+                    I'm connected to live environmental APIs through the MCP
+                    server. Default location is set to Bengaluru!
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-4 mt-6">
+                    <div className="space-y-2">
+                      <h3 className="font-semibold text-green-700">
+                        🔧 MCP Tools Available:
+                      </h3>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        <li>• Current weather (OpenMeteoAPI)</li>
+                        <li>• Soil composition (SoilGridsAPI)</li>
+                        <li>• Soil moisture (SMAPSoilMoisture)</li>
+                        <li>• Groundwater storage (GRACEGroundwater)</li>
+                        <li>• USGS earthquake data (USGSEarthquakeAPI)</li>
+                        <li>• Commodity prices (FAOPriceData)</li>
+                        <li>• Farm analysis (ComprehensiveFarmData)</li>
+                      </ul>
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="font-semibold text-blue-700">
+                        🌍 Try asking:
+                      </h3>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        <li>• What's the current weather?</li>
+                        <li>• Show me soil composition for my location</li>
+                        <li>• Show me satellite soil moisture data</li>
+                        <li>• Get groundwater storage trends</li>
+                        <li>• Any recent earthquakes nearby?</li>
+                        <li>• What are current wheat prices in India?</li>
+                        <li>
+                          • Give me a comprehensive farm analysis for my area
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}
@@ -376,29 +379,28 @@ export default function EnhancedMCPChatbot() {
           )}
           <div ref={chatEndRef} />
         </div>
-      )}
+      }
 
-      {/* Input Area */}
-      <Card className="rounded-none border-t">
-        <CardContent className="p-4">
-          <form onSubmit={onSubmit} className="flex space-x-2">
+      <div className="flex justify-center px-8 py-12">
+        <div className="w-full max-w-2xl bg-white rounded-full shadow-md px-6 py-3">
+          <form onSubmit={onSubmit} className="flex items-center space-x-6">
             <Input
               value={input}
               onChange={handleInputChange}
-              placeholder="Ask about weather, soil, precipitation, or any environmental data..."
-              className="flex-grow"
+              placeholder="Ask about weather, soil, precipitation…"
+              className="flex-grow bg-transparent border-0 py-2 placeholder-gray-400 focus:outline-none"
               disabled={location.latitude == null || isLoading}
             />
             <Button
               type="submit"
               disabled={!input.trim() || location.latitude == null || isLoading}
-              className="bg-green-600 hover:bg-green-700"
+              className="p-4 bg-green-600 hover:bg-green-700 text-white rounded-full shadow"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-5 h-5" />
             </Button>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Dialogs */}
       <LocationDialog

@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 
-const MCP_SERVER_URL = "http://18.61.195.193:8010";
+const MCP_SERVER_URL = "https://69c0-106-51-85-143.ngrok-free.app";
 
 export async function POST(req: NextRequest) {
   try {
