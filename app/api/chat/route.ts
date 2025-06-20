@@ -23,12 +23,17 @@ async function callMCPTool(toolName: string, params: any) {
     );
 
     // Use our proxy route instead of calling MCP server directly
+
+    const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
     const response = await fetch(
-      `${
-        process.env.VERCEL_URL
-          ? `https://${process.env.VERCEL_URL}`
-          : "http://localhost:3000"
-      }/api/mcp-proxy`,
+      `${BASE_URL}/api/mcp-proxy`,
+
+      // const response = await fetch(
+      //   `${
+      //     process.env.VERCEL_URL
+      //       ? `https://${process.env.VERCEL_URL}`
+      //       : "http://localhost:3000"
+      //   }/api/mcp-proxy`,
       {
         method: "POST",
         headers: {
