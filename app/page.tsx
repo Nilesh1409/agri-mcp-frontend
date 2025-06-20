@@ -322,10 +322,7 @@ export default function EnhancedMCPChatbot() {
                   <h2 className="text-2xl font-bold text-gray-800">
                     Welcome to Enhanced MCP Environmental Chatbot! 🌱
                   </h2>
-                  <p className="text-gray-600">
-                    I'm connected to live environmental APIs through the MCP
-                    server. Default location is set to Bengaluru!
-                  </p>
+
                   <div className="grid md:grid-cols-2 gap-4 mt-6">
                     <div className="space-y-2">
                       <h3 className="font-semibold text-green-700">
