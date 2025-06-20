@@ -330,7 +330,6 @@ export default function EnhancedMCPChatbot() {
                       </h3>
                       <ul className="text-sm text-gray-600 space-y-1">
                         <li>• Current weather (OpenMeteoAPI)</li>
-                        <li>• Soil composition (SoilGridsAPI)</li>
                         <li>• Soil moisture (SMAPSoilMoisture)</li>
                         <li>• Groundwater storage (GRACEGroundwater)</li>
                         <li>• USGS earthquake data (USGSEarthquakeAPI)</li>
@@ -344,7 +343,6 @@ export default function EnhancedMCPChatbot() {
                       </h3>
                       <ul className="text-sm text-gray-600 space-y-1">
                         <li>• What's the current weather?</li>
-                        <li>• Show me soil composition for my location</li>
                         <li>• Show me satellite soil moisture data</li>
                         <li>• Get groundwater storage trends</li>
                         <li>• Any recent earthquakes nearby?</li>
