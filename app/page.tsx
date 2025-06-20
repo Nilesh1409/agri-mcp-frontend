@@ -232,7 +232,7 @@ export default function EnhancedMCPChatbot() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className=" flex flex-col h-screen bg-gray-50">
       {/* Header */}
       <Card className="rounded-none border-b">
         <CardHeader className="pb-3">
@@ -299,10 +299,11 @@ export default function EnhancedMCPChatbot() {
       </Card>
 
       {/* Chat Messages with Enhanced Scrolling */}
+
       {
         <div
           ref={chatContainerRef}
-          className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth"
+          className="flex-1 mx-[10%] overflow-y-auto p-4 space-y-4 scroll-smooth"
           onScroll={handleScroll}
           style={{ scrollBehavior: "smooth" }}
         >
@@ -361,7 +362,7 @@ export default function EnhancedMCPChatbot() {
             <MessageBubble key={message.id} message={message} />
           ))}
           {isLoading && (
-            <div className="flex justify-start">
+            <div className="  flex justify-start">
               <div className="bg-white rounded-lg p-4 shadow-sm border max-w-xs">
                 <div className="flex items-center space-x-2">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-600"></div>

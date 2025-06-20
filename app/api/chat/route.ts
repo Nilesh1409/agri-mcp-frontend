@@ -31,7 +31,7 @@ async function callMCPTool(toolName: string, params: any) {
       // const response = await fetch(
       //   `${
       //     process.env.VERCEL_URL
-      //       ? `https://${process.env.VERCEL_URL}
+      //       ? `https://${process.env.VERCEL_URL}`
       //       : "http://localhost:3000"
       //   }/api/mcp-proxy`,
       {

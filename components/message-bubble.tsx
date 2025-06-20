@@ -50,7 +50,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             </div>
 
             {/* Main content */}
-            <div className="flex-1 space-y-2">
+            <div className=" flex-1 space-y-2">
               <Badge
                 variant={isUser ? "default" : "secondary"}
                 className={
