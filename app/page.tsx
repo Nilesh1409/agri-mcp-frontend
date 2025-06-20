@@ -303,7 +303,7 @@ export default function EnhancedMCPChatbot() {
       {
         <div
           ref={chatContainerRef}
-          className="flex-1 mx-[10%] overflow-y-auto p-4 space-y-4 scroll-smooth"
+          className="flex-1 px-[10%] overflow-y-auto p-4 space-y-4 scroll-smooth"
           onScroll={handleScroll}
           style={{ scrollBehavior: "smooth" }}
         >
