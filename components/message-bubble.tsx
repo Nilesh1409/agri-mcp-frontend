@@ -28,7 +28,11 @@ export function MessageBubble({ message }: MessageBubbleProps) {
   const invocation = (message as any).toolInvocations?.[0];
 
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-2`}>
+    <div
+      className={`flex ${
+        isUser ? "justify-end" : "justify-start"
+      } mb-2 max-w-[70vw]`}
+    >
       <Card
         className={`max-w-4xl relative ${
           isUser ? "bg-blue-50 border-blue-200" : "bg-white border-gray-200"

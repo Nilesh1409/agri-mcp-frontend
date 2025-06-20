@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 
-const MCP_SERVER_URL = "http://18.61.195.193:8010";
+const MCP_SERVER_URL = "https://efarm.digitalgreen.org/agri_mcp";
 
 // Function to call the live MCP server through our proxy
 async function callMCPServer(endpoint: string, options?: RequestInit) {
