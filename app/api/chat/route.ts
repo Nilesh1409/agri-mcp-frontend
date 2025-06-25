@@ -144,7 +144,7 @@ When users ask for environmental data, AUTOMATICALLY call the appropriate tool u
 - Longitude: ${userLocation.longitude}
 
 Available tools and when to use them:
-- getWeatherData: Current weather information (temperature, humidity, precipitation, wind)
+- getWeatherData: Current weather information AND weather forecasts (temperature, humidity, precipitation, wind)
 
 - getPrecipitationData: Historical rainfall data from CHIRPS satellite
 - getGroundwaterData: Groundwater storage trends from GRACE satellite
@@ -158,6 +158,8 @@ ALWAYS use the tools when users ask about environmental data. Don't ask for loca
 
 Examples of what to call:
 - "What's the weather?" → getWeatherData
+- "Weather forecast" or "today's forecast" → getWeatherData
+- "What will the weather be like?" → getWeatherData
 
 - "Precipitation data" or "rainfall" → getPrecipitationData
 - "Groundwater" or "water storage" → getGroundwaterData
@@ -375,12 +377,33 @@ Be proactive in calling the right tools based on user questions!`,
         }),
 
         getSoilMoistureData: tool({
-          description: "Get satellite soil moisture data from SMAP",
+          description:
+            "Get satellite soil moisture data from SMAP with historical comparison",
           parameters: z.object({
             latitude: z.number().optional().describe("Latitude coordinate"),
             longitude: z.number().optional().describe("Longitude coordinate"),
+            startDate: z
+              .string()
+              .optional()
+              .describe(
+                "Start date in YYYY-MM-DD format for historical comparison"
+              ),
+            endDate: z
+              .string()
+              .optional()
+              .describe("End date in YYYY-MM-DD format"),
+            compareWeekly: z
+              .boolean()
+              .optional()
+              .describe("Compare current vs last week"),
           }),
-          execute: async ({ latitude, longitude }) => {
+          execute: async ({
+            latitude,
+            longitude,
+            startDate,
+            endDate,
+            compareWeekly,
+          }) => {
             const lat = latitude || userLocation.latitude;
             const lon = longitude || userLocation.longitude;
 
@@ -389,26 +412,68 @@ Be proactive in calling the right tools based on user questions!`,
             );
 
             try {
-              const data = await callMCPTool("SMAPSoilMoisture", {
-                lat: lat,
-                lon: lon,
-                date: new Date().toISOString().split("T")[0],
-                product: "SPL3SMP",
-              });
-
               let response = `🌱 **Soil Moisture Data (SMAP) for ${userLocation.locationName}:**\n\n`;
 
-              if (data.soil_moisture !== undefined) {
-                response += `💧 **Soil Moisture:** ${data.soil_moisture}\n`;
-              }
-              if (data.soil_moisture_anomaly !== undefined) {
-                response += `📊 **Anomaly:** ${data.soil_moisture_anomaly}\n`;
-              }
-              if (data.vegetation_opacity !== undefined) {
-                response += `🌿 **Vegetation Opacity:** ${data.vegetation_opacity}\n`;
-              }
-              if (data.quality_flag !== undefined) {
-                response += `✅ **Quality:** ${data.quality_flag}\n`;
+              if (compareWeekly) {
+                // Get current data
+                const currentData = await callMCPTool("SMAPSoilMoisture", {
+                  lat: lat,
+                  lon: lon,
+                  date: new Date().toISOString().split("T")[0],
+                  product: "SPL3SMP",
+                });
+
+                // Get data from a week ago
+                const weekAgo = new Date();
+                weekAgo.setDate(weekAgo.getDate() - 7);
+                const weekAgoData = await callMCPTool("SMAPSoilMoisture", {
+                  lat: lat,
+                  lon: lon,
+                  date: weekAgo.toISOString().split("T")[0],
+                  product: "SPL3SMP",
+                });
+
+                response += `📊 **Weekly Comparison:**\n`;
+                response += `• **Current:** ${
+                  currentData.soil_moisture || "N/A"
+                }\n`;
+                response += `• **Week Ago:** ${
+                  weekAgoData.soil_moisture || "N/A"
+                }\n`;
+
+                if (currentData.soil_moisture && weekAgoData.soil_moisture) {
+                  const change =
+                    currentData.soil_moisture - weekAgoData.soil_moisture;
+                  const changePercent = (
+                    (change / weekAgoData.soil_moisture) *
+                    100
+                  ).toFixed(1);
+                  response += `• **Change:** ${
+                    change > 0 ? "+" : ""
+                  }${change.toFixed(3)} (${changePercent}%)\n`;
+                  response += `• **Trend:** ${
+                    change > 0
+                      ? "📈 Improved"
+                      : change < 0
+                      ? "📉 Decreased"
+                      : "➡️ Stable"
+                  }\n`;
+                }
+              } else {
+                // Original single-date logic
+                const data = await callMCPTool("SMAPSoilMoisture", {
+                  lat: lat,
+                  lon: lon,
+                  date: endDate || new Date().toISOString().split("T")[0],
+                  product: "SPL3SMP",
+                });
+
+                if (data.soil_moisture !== undefined) {
+                  response += `💧 **Soil Moisture:** ${data.soil_moisture}\n`;
+                }
+                if (data.soil_moisture_anomaly !== undefined) {
+                  response += `📊 **Anomaly:** ${data.soil_moisture_anomaly}\n`;
+                }
               }
 
               response += `\n📍 **Location:** ${userLocation.locationName} (${lat}, ${lon})`;
