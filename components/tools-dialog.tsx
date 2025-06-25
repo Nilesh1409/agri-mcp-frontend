@@ -61,7 +61,14 @@ export function ToolsDialog({ open, onOpenChange }: ToolsDialogProps) {
       }
 
       // --- FILTER OUT NASA, World Bank & USDA TOOLS ---
-      const excludePatterns = ["nasa", "world_bank", "usda", "chirps"];
+      const excludePatterns = [
+        "nasa",
+        "world_bank",
+        "usda",
+        "chirps",
+        "SoilGrids",
+      ];
+      // const excludePatterns = [];
       const filterTool = (tool: Tool) => {
         const name = tool.name.toLowerCase();
         const desc = tool.description.toLowerCase();

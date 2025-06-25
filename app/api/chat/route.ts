@@ -279,56 +279,56 @@ Be proactive in calling the right tools based on user questions!`,
         //   },
         // }),
 
-        getPrecipitationData: tool({
-          description: "Get historical precipitation data from CHIRPS",
-          parameters: z.object({
-            latitude: z.number().optional().describe("Latitude coordinate"),
-            longitude: z.number().optional().describe("Longitude coordinate"),
-            startDate: z
-              .string()
-              .optional()
-              .describe("Start date in YYYY-MM-DD format"),
-            endDate: z
-              .string()
-              .optional()
-              .describe("End date in YYYY-MM-DD format"),
-          }),
-          execute: async ({ latitude, longitude, startDate, endDate }) => {
-            const lat = latitude || userLocation.latitude;
-            const lon = longitude || userLocation.longitude;
+        // getPrecipitationData: tool({
+        //   description: "Get historical precipitation data from CHIRPS",
+        //   parameters: z.object({
+        //     latitude: z.number().optional().describe("Latitude coordinate"),
+        //     longitude: z.number().optional().describe("Longitude coordinate"),
+        //     startDate: z
+        //       .string()
+        //       .optional()
+        //       .describe("Start date in YYYY-MM-DD format"),
+        //     endDate: z
+        //       .string()
+        //       .optional()
+        //       .describe("End date in YYYY-MM-DD format"),
+        //   }),
+        //   execute: async ({ latitude, longitude, startDate, endDate }) => {
+        //     const lat = latitude || userLocation.latitude;
+        //     const lon = longitude || userLocation.longitude;
 
-            console.log(
-              `🌧️ Getting precipitation data for coordinates: ${lat}, ${lon}`
-            );
+        //     console.log(
+        //       `🌧️ Getting precipitation data for coordinates: ${lat}, ${lon}`
+        //     );
 
-            try {
-              const data = await callMCPTool("CHIRPSPrecipitation", {
-                lat: lat,
-                lon: lon,
-                start_date: startDate || "2024-01-01",
-                end_date: endDate || new Date().toISOString().split("T")[0],
-                temporal_resolution: "monthly",
-              });
+        //     try {
+        //       const data = await callMCPTool("CHIRPSPrecipitation", {
+        //         lat: lat,
+        //         lon: lon,
+        //         start_date: startDate || "2024-01-01",
+        //         end_date: endDate || new Date().toISOString().split("T")[0],
+        //         temporal_resolution: "monthly",
+        //       });
 
-              let response = `🌧️ **Precipitation Data for ${userLocation.locationName}:**\n\n`;
+        //       let response = `🌧️ **Precipitation Data for ${userLocation.locationName}:**\n\n`;
 
-              if (data.monthly_total !== undefined) {
-                response += `📊 **Monthly Total:** ${data.monthly_total} mm\n`;
-              }
-              if (data.anomaly_percent !== undefined) {
-                response += `📈 **Anomaly:** ${data.anomaly_percent}%\n`;
-              }
+        //       if (data.monthly_total !== undefined) {
+        //         response += `📊 **Monthly Total:** ${data.monthly_total} mm\n`;
+        //       }
+        //       if (data.anomaly_percent !== undefined) {
+        //         response += `📈 **Anomaly:** ${data.anomaly_percent}%\n`;
+        //       }
 
-              response += `\n📍 **Location:** ${userLocation.locationName} (${lat}, ${lon})`;
-              response += `\n🕐 **Retrieved at:** ${new Date().toLocaleString()}`;
+        //       response += `\n📍 **Location:** ${userLocation.locationName} (${lat}, ${lon})`;
+        //       response += `\n🕐 **Retrieved at:** ${new Date().toLocaleString()}`;
 
-              return response;
-            } catch (error) {
-              console.error("Precipitation tool error:", error);
-              return `❌ Error getting precipitation data: ${error.message}`;
-            }
-          },
-        }),
+        //       return response;
+        //     } catch (error) {
+        //       console.error("Precipitation tool error:", error);
+        //       return `❌ Error getting precipitation data: ${error.message}`;
+        //     }
+        //   },
+        // }),
 
         getGroundwaterData: tool({
           description:
