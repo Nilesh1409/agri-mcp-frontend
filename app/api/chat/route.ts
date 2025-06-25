@@ -145,7 +145,7 @@ When users ask for environmental data, AUTOMATICALLY call the appropriate tool u
 
 Available tools and when to use them:
 - getWeatherData: Current weather information (temperature, humidity, precipitation, wind)
-- getSoilData: Soil composition and health data (sand, clay, silt, organic carbon, pH)
+
 - getPrecipitationData: Historical rainfall data from CHIRPS satellite
 - getGroundwaterData: Groundwater storage trends from GRACE satellite
 - getSoilMoistureData: Current soil moisture from SMAP satellite
@@ -158,7 +158,7 @@ ALWAYS use the tools when users ask about environmental data. Don't ask for loca
 
 Examples of what to call:
 - "What's the weather?" → getWeatherData
-- "Show me soil data" → getSoilData  
+
 - "Precipitation data" or "rainfall" → getPrecipitationData
 - "Groundwater" or "water storage" → getGroundwaterData
 - "Soil moisture" → getSoilMoistureData
@@ -220,62 +220,62 @@ Be proactive in calling the right tools based on user questions!`,
           },
         }),
 
-        getSoilData: tool({
-          description: "Get soil composition and properties data",
-          parameters: z.object({
-            latitude: z.number().optional().describe("Latitude coordinate"),
-            longitude: z.number().optional().describe("Longitude coordinate"),
-          }),
-          execute: async ({ latitude, longitude }) => {
-            const lat = latitude || userLocation.latitude;
-            const lon = longitude || userLocation.longitude;
+        // getSoilData: tool({
+        //   description: "Get soil composition and properties data",
+        //   parameters: z.object({
+        //     latitude: z.number().optional().describe("Latitude coordinate"),
+        //     longitude: z.number().optional().describe("Longitude coordinate"),
+        //   }),
+        //   execute: async ({ latitude, longitude }) => {
+        //     const lat = latitude || userLocation.latitude;
+        //     const lon = longitude || userLocation.longitude;
 
-            console.log(`🌱 Getting soil data for coordinates: ${lat}, ${lon}`);
+        //     console.log(`🌱 Getting soil data for coordinates: ${lat}, ${lon}`);
 
-            try {
-              const data = await callMCPTool("SoilGridsAPI", {
-                lat: lat,
-                lon: lon,
-                property: "sand,clay,silt,soc,phh2o",
-                depth: "0-5cm,5-15cm,15-30cm",
-              });
+        //     try {
+        //       const data = await callMCPTool("SoilGridsAPI", {
+        //         lat: lat,
+        //         lon: lon,
+        //         property: "sand,clay,silt,soc,phh2o",
+        //         depth: "0-5cm,5-15cm,15-30cm",
+        //       });
 
-              if (!data.properties) {
-                return "❌ No soil data available from the API";
-              }
+        //       if (!data.properties) {
+        //         return "❌ No soil data available from the API";
+        //       }
 
-              let response = `🌱 **Soil Properties for ${userLocation.locationName}:**\n\n`;
+        //       let response = `🌱 **Soil Properties for ${userLocation.locationName}:**\n\n`;
 
-              for (const [propName, propData] of Object.entries(
-                data.properties
-              )) {
-                if (
-                  propData &&
-                  typeof propData === "object" &&
-                  "depths" in propData
-                ) {
-                  response += `🔬 **${propName.toUpperCase()}**\n`;
-                  for (const [depth, value] of Object.entries(
-                    propData.depths
-                  )) {
-                    response += `  • ${depth}: ${
-                      value !== null ? value : "No data"
-                    }\n`;
-                  }
-                  response += `\n`;
-                }
-              }
+        //       for (const [propName, propData] of Object.entries(
+        //         data.properties
+        //       )) {
+        //         if (
+        //           propData &&
+        //           typeof propData === "object" &&
+        //           "depths" in propData
+        //         ) {
+        //           response += `🔬 **${propName.toUpperCase()}**\n`;
+        //           for (const [depth, value] of Object.entries(
+        //             propData.depths
+        //           )) {
+        //             response += `  • ${depth}: ${
+        //               value !== null ? value : "No data"
+        //             }\n`;
+        //           }
+        //           response += `\n`;
+        //         }
+        //       }
 
-              response += `📍 **Location:** ${userLocation.locationName} (${lat}, ${lon})`;
-              response += `\n🕐 **Retrieved at:** ${new Date().toLocaleString()}`;
+        //       response += `📍 **Location:** ${userLocation.locationName} (${lat}, ${lon})`;
+        //       response += `\n🕐 **Retrieved at:** ${new Date().toLocaleString()}`;
 
-              return response;
-            } catch (error) {
-              console.error("Soil tool error:", error);
-              return `❌ Error getting soil data: ${error.message}`;
-            }
-          },
-        }),
+        //       return response;
+        //     } catch (error) {
+        //       console.error("Soil tool error:", error);
+        //       return `❌ Error getting soil data: ${error.message}`;
+        //     }
+        //   },
+        // }),
 
         getPrecipitationData: tool({
           description: "Get historical precipitation data from CHIRPS",
