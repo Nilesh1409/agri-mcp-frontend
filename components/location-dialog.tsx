@@ -30,6 +30,7 @@ interface LocationDialogProps {
 }
 
 const commonLocations = {
+  "Nairobi, Kemnya": { lat: 1.2921, lon: 36.8219 },
   "Mumbai, India": { lat: 19.076, lon: 72.8777 },
   "Delhi, India": { lat: 28.6139, lon: 77.209 },
   "Bangalore, India": { lat: 12.9716, lon: 77.5946 },
