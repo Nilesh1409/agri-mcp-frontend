@@ -65,11 +65,13 @@ async function callMCPTool(toolName: string, params: any) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json();
+    const { messages, location } = await req.json();
     console.log(`📨 Received ${messages.length} messages`);
 
     // Extract location from the latest message if provided
-    let userLocation = null;
+    console.log(`📨 Received ${messages.length} messages`);
+    console.log(`📍 Received location:`, location);
+    let userLocation = location;
     // let userLocation = JSON.parse(localStorage.getItem("mcpLocation") || );
     const latestMessage = messages[messages.length - 1]?.content;
 
@@ -124,7 +126,7 @@ export async function POST(req: NextRequest) {
         longitude: 36.8219,
         // 1.2921° S, 36.8219
       };
-      console.log(`📍 Using default location: Bengaluru`);
+      console.log(`📍 Using default location: Kenya`);
     }
 
     // Create the AI response with tools using the new tool() helper

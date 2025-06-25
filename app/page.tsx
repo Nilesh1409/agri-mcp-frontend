@@ -24,9 +24,18 @@ import { ServerStatus } from "@/components/server-status";
 
 export default function EnhancedMCPChatbot() {
   const [chatError, setChatError] = useState<string | null>(null);
+  // Location state
+  const [location, setLocation] = useState<{
+    latitude: number | null;
+    longitude: number | null;
+    locationName: string | null;
+  }>({ latitude: null, longitude: null, locationName: null });
   const { messages, input, handleInputChange, handleSubmit, isLoading, send } =
     useChat({
       api: "/api/chat",
+      body: {
+        location: location, // Pass location in request body
+      },
       onError: (error) => {
         console.error("❌ Chat error:", error);
         setChatError(error.message || "An error occurred");
@@ -35,13 +44,6 @@ export default function EnhancedMCPChatbot() {
     });
 
   console.log("🚀 ~ EnhancedMCPChatbot ~ messages:", messages);
-
-  // Location state
-  const [location, setLocation] = useState<{
-    latitude: number | null;
-    longitude: number | null;
-    locationName: string | null;
-  }>({ latitude: null, longitude: null, locationName: null });
 
   const [showLocationDialog, setShowLocationDialog] = useState(false);
   const [showToolsDialog, setShowToolsDialog] = useState(false);
