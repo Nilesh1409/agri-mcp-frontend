@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
 
     // Extract location from the latest message if provided
     let userLocation = null;
+    // let userLocation = JSON.parse(localStorage.getItem("mcpLocation") || );
     const latestMessage = messages[messages.length - 1]?.content;
 
     console.log(`🔍 Latest message content:`, latestMessage);
@@ -118,9 +119,10 @@ export async function POST(req: NextRequest) {
     // Default to Bengaluru if no location found
     if (!userLocation) {
       userLocation = {
-        locationName: "Bengaluru, India",
-        latitude: 12.9716,
-        longitude: 77.5946,
+        locationName: "Nairobi, Kenya",
+        latitude: 1.2921,
+        longitude: 36.8219,
+        // 1.2921° S, 36.8219
       };
       console.log(`📍 Using default location: Bengaluru`);
     }

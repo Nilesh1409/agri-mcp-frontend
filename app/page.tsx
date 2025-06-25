@@ -347,7 +347,7 @@ export default function EnhancedMCPChatbot() {
                         <li>• Show me satellite soil moisture data</li>
                         <li>• Get groundwater storage trends</li>
                         <li>• Any recent earthquakes nearby?</li>
-                        <li>• What are current wheat prices in India?</li>
+                        <li>• What are current wheat prices in Kenya?</li>
                         <li>
                           • Give me a comprehensive farm analysis for my area
                         </li>
